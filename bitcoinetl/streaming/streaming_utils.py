@@ -1,8 +1,10 @@
 from blockchainetl.jobs.exporters.console_item_exporter import ConsoleItemExporter
-
+from bitcoinetl.jobs.exporters.mongodb_item_exporter import MongoDBItemExporter
 
 def get_item_exporter(output):
-    if output is not None:
+    if output.startswith("mongodb://"):
+        item_exporter = MongoDBItemExporter(output)
+    elif output is not None:
         from blockchainetl.jobs.exporters.google_pubsub_item_exporter import GooglePubSubItemExporter
         item_exporter = GooglePubSubItemExporter(
             item_type_to_topic_mapping={
