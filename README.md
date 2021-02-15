@@ -210,6 +210,11 @@ You can export blocks below `blocks`, there is no need to wait until the full sy
     > docker run bitcoin-etl:latest-streaming stream -p http://user:pass@localhost:8332 --start-block 500000
     > echo "Stream to Pub/Sub"
     > docker run -v /path_to_credentials_file/:/bitcoin-etl/ --env GOOGLE_APPLICATION_CREDENTIALS=/bitcoin-etl/credentials_file.json bitcoin-etl:latest-streaming stream -p http://user:pass@localhost:8332 --start-block 500000 --output projects/your-project/topics/crypto_bitcoin
+    ```  
+1. Run streaming to MongoDB
+   ```bash
+    > echo "Stream to MongoDB"
+    > docker run -v $HOME/output:/bitcoin-etl/output bitcoin-etl:latest stream  --provider-uri http://user:pass@localhost:8332 --output mongodb://db_user:db_pass@localhost:27017/bitcoinetldb?authSource=admin
     ```
 
 1. Refer to https://github.com/blockchain-etl/bitcoin-etl-streaming for deploying the streaming app to
