@@ -1,8 +1,11 @@
 from blockchainetl.jobs.exporters.console_item_exporter import ConsoleItemExporter
 from bitcoinetl.jobs.exporters.mongodb_item_exporter import MongoDBItemExporter
+from bitcoinetl.jobs.exporters.dynamodb_item_exporter import DynamoDBItemExporter
 
 def get_item_exporter(output):
-    if output.startswith("mongodb://"):
+    if output.startswith("dynamodb"):
+        item_exporter = DynamoDBItemExporter(output)
+    elif output.startswith("mongodb://"):
         item_exporter = MongoDBItemExporter(output)
     elif output is not None:
         from blockchainetl.jobs.exporters.google_pubsub_item_exporter import GooglePubSubItemExporter
