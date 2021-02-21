@@ -31,10 +31,11 @@ setup(
     keywords='bitcoin',
     python_requires='>=3.5.0,<3.8.0',
     install_requires=[
-        'requests==2.20.0',
+        'requests==2.25.1',
         'python-dateutil==2.7.0',
         'click==7.0',
-        'pymongo'
+        'pymongo',
+        'boto3==1.17.12'
     ],
     extras_require={
         'streaming': [
