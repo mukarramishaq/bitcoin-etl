@@ -3,10 +3,10 @@ from blockchainetl.jobs.exporters.in_memory_item_exporter import InMemoryItemExp
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
 class DynamoDBItemExporter:
-    def __init__(self, uri="dynamodb://example.com/?"):
+    def __init__(self, uri="dynamodb://example.com/?chunkSize=10"):
         self.db = boto3.resource('dynamodb')
         parsed = urlparse.urlparse(uri)
-        self.chunkSize = int(float(parse_qs(parsed.query)['chunkSize'] or "10"))
+        self.chunkSize = int(float(parse_qs(parsed.query)['chunkSize'].pop() or "10"))
         self.item_types = ["block", "transaction"]
         self.item_2_collection = {
             "block": "blocks",
