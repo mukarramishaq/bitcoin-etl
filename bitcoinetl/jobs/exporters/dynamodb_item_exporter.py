@@ -6,7 +6,7 @@ class DynamoDBItemExporter:
     def __init__(self, uri="dynamodb://example.com/?"):
         self.db = boto3.resource('dynamodb')
         parsed = urlparse.urlparse(uri)
-        self.chunkSize = parse_qs(parsed.query)['chunkSize']
+        self.chunkSize = int(float(parse_qs(parsed.query)['chunkSize'] or "10"))
         self.item_types = ["block", "transaction"]
         self.item_2_collection = {
             "block": "blocks",
@@ -25,7 +25,7 @@ class DynamoDBItemExporter:
         for item in items:
             item_exporter.export_item(item)
         for item_type in self.item_types:
-            chunks = list(self.chunks(item_exporter.get_items(item_type), self.chunkSize or 10))
+            chunks = list(self.chunks(item_exporter.get_items(item_type), self.chunkSize))
             for chunk in chunks:
                 with self.db.Table(self.item_2_collection[item_type]).batch_writer(overwrite_by_pkeys=self.item_2_collection_keys[item_type]) as batch:
                     for item in chunk:
